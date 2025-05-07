@@ -17,6 +17,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 
+object AppColors {
+    val DarkBlue = Color(0xFF1D2A5B)
+    val LightBlue = Color(0xFFE0F0FF)
+    val PrimaryYellow = Color(0xFFFED28B)
+}
+
+// Define dimension constants
+object Dimens {
+    val OptionCornerRadius = 15.dp
+    val ContainerCornerRadius = 30.dp
+    val ButtonCornerRadius = 50.dp
+    val OptionHeight = 60.dp
+    val ButtonHeight = 50.dp
+    val HorizontalPadding = 24.dp
+    val InnerPadding = 24.dp
+    val SpacingLarge = 16.dp
+    val SpacingMedium = 12.dp
+}
+
 class FitnessExperienceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,95 +47,92 @@ class FitnessExperienceActivity : ComponentActivity() {
 
 @Composable
 fun FitnessExperienceScreen() {
-    val darkBlue = Color(0xFF1D2A5B)
-    val lightBlue = Color(0xFFE0F0FF)
-    val primaryYellow = Color(0xFFFED28B)
-
     var selectedOption by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(darkBlue)
-            .padding(24.dp),
-        contentAlignment = Alignment.TopCenter
+            .background(AppColors.DarkBlue)
     ) {
         Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Dimens.HorizontalPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-            {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(top = 24.dp, bottom = 16.dp)
-                ) {
-                    Text(
-                        text = "FB",
-                        fontSize = 40.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = primaryYellow
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "FITBUDDY",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                }
-
+            verticalArrangement = Arrangement.spacedBy(Dimens.SpacingLarge)
+        ) {
+            // Header with logo and app name
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = Dimens.SpacingLarge, bottom = Dimens.SpacingLarge)
+            ) {
                 Text(
-                    text = "Fitness Experience?",
+                    text = "FB",
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = AppColors.PrimaryYellow
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "FITBUDDY",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(lightBlue, RoundedCornerShape(30.dp))
-                        .padding(24.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    // Beginner option
-                    ExperienceOption(
-                        text = "Beginner",
-                        isSelected = selectedOption == "Beginner",
-                        onClick = { selectedOption = "Beginner" }
-                    )
-
-                    // Intermediate option
-                    ExperienceOption(
-                        text = "Intermediate",
-                        isSelected = selectedOption == "Intermediate",
-                        onClick = { selectedOption = "Intermediate" }
-                    )
-
-                    // Advanced option
-                    ExperienceOption(
-                        text = "Advanced",
-                        isSelected = selectedOption == "Advanced",
-                        onClick = { selectedOption = "Advanced" }
-                    )
-                }
-
-                Button(
-                    onClick = { /* Handle continue action */ },
-                    shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = primaryYellow,
-                        contentColor = darkBlue
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .padding(horizontal = 20.dp)
-                ) {
-                    Text("Continue", fontWeight = FontWeight.Bold)
-                }
             }
+
+            // Title
+            Text(
+                text = "Fitness Experience?",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(Dimens.SpacingLarge))
+
+            // Options container
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(AppColors.LightBlue, RoundedCornerShape(Dimens.ContainerCornerRadius))
+                    .padding(Dimens.InnerPadding),
+                verticalArrangement = Arrangement.spacedBy(Dimens.SpacingMedium)
+            ) {
+                ExperienceOption(
+                    text = "Beginner",
+                    isSelected = selectedOption == "Beginner",
+                    onClick = { selectedOption = "Beginner" }
+                )
+
+                ExperienceOption(
+                    text = "Intermediate",
+                    isSelected = selectedOption == "Intermediate",
+                    onClick = { selectedOption = "Intermediate" }
+                )
+
+                ExperienceOption(
+                    text = "Advanced",
+                    isSelected = selectedOption == "Advanced",
+                    onClick = { selectedOption = "Advanced" }
+                )
+            }
+
+            // Continue button
+            Button(
+                onClick = { /* Handle continue action */ },
+                shape = RoundedCornerShape(Dimens.ButtonCornerRadius),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = AppColors.PrimaryYellow,
+                    contentColor = AppColors.DarkBlue
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(Dimens.ButtonHeight)
+            ) {
+                Text("Continue", fontWeight = FontWeight.Bold)
+            }
+        }
     }
 }
 
